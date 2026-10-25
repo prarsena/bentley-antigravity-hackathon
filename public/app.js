@@ -275,6 +275,7 @@ function selectStudent(student) {
   elements.btnBackDirectory.style.display = 'inline-flex';
   elements.navWorkstationTabs.style.display = 'flex';
   elements.openEhrBtn.style.display = 'inline-flex';
+  elements.openEhrBtn.setAttribute('title', `${student.name} (${student.student_id}) • Open Medical Chart`);
 
   elements.navStudentName.textContent = student.name;
   elements.navStudentId.textContent = student.student_id;

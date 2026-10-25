@@ -18,7 +18,7 @@
       <div class="navbar-left">
         <button id="btn-back-directory" class="btn btn-ghost btn-sm" style="display: none;" title="Return to Student Directory">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-          Directory
+          <span class="btn-text">Directory</span>
         </button>
         <div class="brand">
           <span class="brand-title">UOkay?</span>
@@ -30,15 +30,18 @@
       <!-- Center: Tabs (Shown only when a student is selected) -->
       <nav class="navbar-center" id="nav-workstation-tabs" style="display: none;" aria-label="Workstation Views">
         <div class="tabs-list" role="tablist">
-          <button id="view-mode-split" class="tab-trigger active" role="tab" aria-selected="true">
-            Dual View
+          <button id="view-mode-split" class="tab-trigger active" role="tab" aria-selected="true" title="Dual View">
+            <span class="tab-label-full">Dual View</span>
+            <span class="tab-label-short">Dual</span>
           </button>
-          <button id="view-mode-student" class="tab-trigger" role="tab" aria-selected="false">
-            Student Intake
+          <button id="view-mode-student" class="tab-trigger" role="tab" aria-selected="false" title="Student Intake">
+            <span class="tab-label-full">Student Intake</span>
+            <span class="tab-label-short">Intake</span>
             <span class="badge-dot" id="student-notify-dot" style="display: none;"></span>
           </button>
-          <button id="view-mode-clinician" class="tab-trigger" role="tab" aria-selected="false">
-            Clinician Queue
+          <button id="view-mode-clinician" class="tab-trigger" role="tab" aria-selected="false" title="Clinician Queue">
+            <span class="tab-label-full">Clinician Queue</span>
+            <span class="tab-label-short">Queue</span>
             <span class="badge-dot" id="dash-notify-dot" style="display: none;"></span>
           </button>
         </div>
@@ -84,14 +87,18 @@
 
       <!-- PANE 1: STUDENT INTAKE CHAT -->
       <section class="pane pane-student" id="pane-student" aria-label="Student Intake">
-        <div class="pane-header">
+        <div class="pane-header pane-header-student">
           <div>
-            <h2 class="pane-title">Student Intake</h2>
+            <h2 class="pane-title">
+              <span class="pane-title-full">Student Intake</span>
+              <span class="pane-title-short">Intake</span>
+            </h2>
             <p class="pane-desc">Confidential symptom history collection</p>
           </div>
           <div class="pane-header-actions">
             <button id="submit-report-btn" class="btn btn-secondary btn-sm" title="Finalize intake and transmit summary to clinical dashboard">
-              Submit to Clinician
+              <span class="btn-text-full">Submit to Clinician</span>
+              <span class="btn-text-short">Submit</span>
             </button>
             <button id="clear-chat-btn" class="btn btn-ghost btn-icon btn-sm" title="Reset conversation">
               <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
@@ -151,10 +158,13 @@
 
       <!-- PANE 2: CLINICIAN TRIAGE DASHBOARD -->
       <section class="pane pane-clinician" id="pane-clinician" aria-label="Clinician Dashboard">
-        <div class="pane-header">
-          <div>
+        <div class="pane-header pane-header-clinician">
+          <div class="pane-header-info">
             <div class="pane-header-title-row">
-              <h2 class="pane-title">Clinician Triage Queue</h2>
+              <h2 class="pane-title">
+                <span class="pane-title-full">Clinician Triage Queue</span>
+                <span class="pane-title-short">Triage Queue</span>
+              </h2>
               <span class="patient-scope-tag" id="queue-patient-scope">Alex Taylor</span>
             </div>
             <p class="pane-desc">Provider review and order management</p>
@@ -164,15 +174,29 @@
             <!-- Patient Scope Switcher -->
             <div class="scope-tabs" role="group" aria-label="Queue Scope">
               <button class="scope-btn active" id="scope-btn-current">Current Patient</button>
-              <button class="scope-btn" id="scope-btn-all">All Patients</button>
+              <button class="scope-btn" id="scope-btn-all">
+                <span class="scope-text-full">All Patients</span>
+                <span class="scope-text-short">All</span>
+              </button>
             </div>
 
             <!-- Shadcn Filter Tabs -->
             <div class="filter-tabs">
               <button class="filter-pill active" data-filter="all">All <span id="count-all" class="count-badge">0</span></button>
-              <button class="filter-pill" data-filter="Emergency">Emergency <span id="count-emergency" class="count-badge red">0</span></button>
-              <button class="filter-pill" data-filter="Routine">Routine <span id="count-routine" class="count-badge">0</span></button>
-              <button class="filter-pill" data-filter="Reviewed">Reviewed <span id="count-reviewed" class="count-badge green">0</span></button>
+              <button class="filter-pill" data-filter="Emergency">
+                <span class="filter-text-full">Emergency</span>
+                <span class="filter-text-short">Emerg</span>
+                <span id="count-emergency" class="count-badge red">0</span>
+              </button>
+              <button class="filter-pill" data-filter="Routine">
+                <span>Routine</span>
+                <span id="count-routine" class="count-badge">0</span>
+              </button>
+              <button class="filter-pill" data-filter="Reviewed">
+                <span class="filter-text-full">Reviewed</span>
+                <span class="filter-text-short">Done</span>
+                <span id="count-reviewed" class="count-badge green">0</span>
+              </button>
             </div>
           </div>
         </div>

@@ -29,6 +29,7 @@
   --ring: #d4d4d8;
 
   --radius: 0.5rem;
+  --navbar-height: 52px;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
@@ -56,7 +57,7 @@ body {
 
 /* NAVBAR */
 .navbar {
-  height: 52px;
+  height: var(--navbar-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -327,7 +328,7 @@ body {
 /* WORKSPACE LAYOUT */
 .workspace {
   flex: 1;
-  height: calc(100vh - 52px);
+  height: calc(100vh - var(--navbar-height));
   overflow: hidden;
 }
 
@@ -1118,8 +1119,42 @@ body {
   background: #10b981;
 }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
+/* RESPONSIVE & HEADER DETAIL COLLAPSE */
+.tab-label-short,
+.pane-title-short,
+.btn-text-short,
+.scope-text-short,
+.filter-text-short {
+  display: none;
+}
+
+.tab-label-full,
+.pane-title-full,
+.btn-text-full,
+.scope-text-full,
+.filter-text-full {
+  display: inline;
+}
+
+@media (max-width: 980px) {
+  .model-status-text {
+    display: none;
+  }
+  .model-status-badge {
+    padding: 0.25rem 0.45rem;
+  }
+  .student-id-code {
+    display: none;
+  }
+  .brand-sep, .brand-sub {
+    display: none;
+  }
+}
+
+@media (max-width: 780px) {
+  :root {
+    --navbar-height: 48px;
+  }
   .workspace.split-layout {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
@@ -1127,5 +1162,230 @@ body {
   .pane-student {
     border-right: none;
     border-bottom: 1px solid var(--border);
+  }
+  .navbar {
+    padding: 0 0.75rem;
+  }
+  .navbar-left, .navbar-center, .navbar-right {
+    gap: 0.45rem;
+  }
+
+  /* Collapse navbar detail labels */
+  .tab-label-full {
+    display: none;
+  }
+  .tab-label-short {
+    display: inline;
+  }
+  #btn-back-directory .btn-text {
+    display: none;
+  }
+  #btn-back-directory {
+    padding: 0.3rem 0.45rem;
+  }
+
+  /* Collapse secondary header details across panes */
+  .pane-desc {
+    display: none !important;
+  }
+  .patient-scope-tag {
+    display: none !important;
+  }
+  .btn-text-full {
+    display: none;
+  }
+  .btn-text-short {
+    display: inline;
+  }
+  .scope-text-full {
+    display: none;
+  }
+  .scope-text-short {
+    display: inline;
+  }
+  .filter-text-full {
+    display: none;
+  }
+  .filter-text-short {
+    display: inline;
+  }
+
+  .pane-header {
+    padding: 0.5rem 0.85rem;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+  .pane-header-student {
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+  .pane-title {
+    font-size: 0.875rem;
+  }
+
+  .clinician-controls {
+    gap: 0.35rem;
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: 2px;
+  }
+  .clinician-controls::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-pill, .scope-btn {
+    padding: 0.22rem 0.5rem;
+    font-size: 0.73rem;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --navbar-height: 46px;
+  }
+  .navbar {
+    padding: 0 0.45rem;
+  }
+  .navbar-left, .navbar-center, .navbar-right {
+    gap: 0.25rem;
+  }
+  .model-status-badge {
+    display: none;
+  }
+  .brand-title {
+    font-size: 0.8125rem;
+  }
+  .student-btn {
+    padding: 0.15rem 0.45rem;
+    height: 28px;
+  }
+  .student-label {
+    max-width: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.74rem;
+  }
+  .tabs-list {
+    height: 30px;
+    padding: 2px;
+  }
+  .tab-trigger {
+    padding: 0.2rem 0.45rem;
+    font-size: 0.75rem;
+  }
+  .btn-icon {
+    width: 28px;
+    height: 28px;
+  }
+  .pane-header {
+    padding: 0.45rem 0.65rem;
+  }
+  .filter-pill, .scope-btn {
+    padding: 0.2rem 0.45rem;
+    font-size: 0.72rem;
+  }
+  .disclaimer {
+    font-size: 0.65rem;
+    margin-top: 0.3rem;
+    line-height: 1.3;
+  }
+  .directory-hero {
+    margin-bottom: 1.25rem;
+  }
+  .directory-title {
+    font-size: 1.25rem;
+  }
+  .directory-subtitle {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --navbar-height: 42px;
+  }
+  .navbar {
+    padding: 0 0.35rem;
+  }
+  .navbar-left, .navbar-center, .navbar-right {
+    gap: 0.2rem;
+  }
+  .brand-title {
+    font-size: 0.78rem;
+  }
+  .student-btn {
+    padding: 0.15rem 0.35rem;
+    height: 26px;
+  }
+  .student-label {
+    max-width: 44px;
+    font-size: 0.7rem;
+  }
+  .tabs-list {
+    height: 28px;
+    padding: 2px;
+  }
+  .tab-trigger {
+    padding: 0.15rem 0.35rem;
+    font-size: 0.7rem;
+  }
+  .btn-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  /* Ultra-compact titles */
+  .pane-title-full {
+    display: none;
+  }
+  .pane-title-short {
+    display: inline;
+  }
+  .pane-header {
+    padding: 0.35rem 0.5rem;
+  }
+  .chat-footer {
+    padding: 0.45rem 0.65rem;
+  }
+  .input {
+    height: 34px;
+    font-size: 0.8125rem;
+  }
+}
+
+/* Compact vertically when window height is small */
+@media (max-height: 720px) {
+  :root {
+    --navbar-height: 42px;
+  }
+  .pane-desc {
+    display: none !important;
+  }
+  .patient-scope-tag {
+    display: none !important;
+  }
+  .pane-header {
+    padding: 0.35rem 0.75rem;
+  }
+  .chat-footer {
+    padding: 0.4rem 0.75rem;
+  }
+  .disclaimer {
+    display: none;
+  }
+  .directory-hero {
+    margin-bottom: 0.75rem;
+  }
+  .directory-view {
+    padding: 1.5rem 1rem;
+  }
+  .emergency-banner, .care-plan-banner {
+    padding: 0.45rem 0.75rem;
   }
 }
