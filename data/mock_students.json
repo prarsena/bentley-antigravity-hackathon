@@ -1,0 +1,77 @@
+[
+  { 
+    "student_id": "STU-88219", 
+    "first_name": "Alex", 
+    "last_name": "Taylor", 
+    "date_of_birth": "2004-05-14", 
+    "recent_labs": [ 
+      { 
+        "test_name": "Complete Blood Count (CBC) - Ferritin & Hemoglobin", 
+        "date": "2026-02-10", 
+        "findings": "Low serum ferritin (11 ng/mL, reference 20-200), mild microcytic anemia indicated.", 
+        "status": "Reviewed by Dr. Chen" 
+      } 
+    ], 
+    "medical_history": ["Mild seasonal allergies", "Iron deficiency anemia (managed)"] 
+  },
+  { 
+    "student_id": "STU-44102", 
+    "first_name": "Jordan", 
+    "last_name": "Rivera", 
+    "date_of_birth": "2003-11-20", 
+    "recent_labs": [ 
+      { 
+        "test_name": "Spirometry & Pulmonary Function Test", 
+        "date": "2025-10-18", 
+        "findings": "FEV1 81% predicted; 14% post-bronchodilator reversibility; consistent with mild exercise-induced bronchospasm.", 
+        "status": "Reviewed by Dr. Patel" 
+      } 
+    ], 
+    "medical_history": ["Exercise-induced asthma", "Penicillin allergy (hives)"] 
+  },
+  { 
+    "student_id": "STU-92055", 
+    "first_name": "Samira", 
+    "last_name": "Patel", 
+    "date_of_birth": "2005-02-08", 
+    "recent_labs": [ 
+      { 
+        "test_name": "Comprehensive Metabolic Panel (CMP) & HbA1c", 
+        "date": "2026-01-15", 
+        "findings": "HbA1c: 6.8% (Target <7.0%); Serum Creatinine: 0.8 mg/dL (Normal); eAG: 148 mg/dL.", 
+        "status": "Reviewed by Dr. Alvarez" 
+      } 
+    ], 
+    "medical_history": ["Type 1 Diabetes Mellitus (CGM & pump managed)", "Celiac disease (strict gluten-free diet)"] 
+  },
+  { 
+    "student_id": "STU-31584", 
+    "first_name": "Marcus", 
+    "last_name": "Washington", 
+    "date_of_birth": "2004-08-30", 
+    "recent_labs": [ 
+      { 
+        "test_name": "Diagnostic Brain MRI & Neurological Panel", 
+        "date": "2025-11-04", 
+        "findings": "Unremarkable non-contrast brain MRI; no acute intracranial abnormality; consistent with migraine with visual aura.", 
+        "status": "Reviewed by Dr. Kim" 
+      } 
+    ], 
+    "medical_history": ["Chronic migraine with visual aura", "Sulfa drug allergy"] 
+  },
+  { 
+    "student_id": "STU-77319", 
+    "first_name": "Chloe", 
+    "last_name": "Dubois", 
+    "date_of_birth": "2003-04-12", 
+    "recent_labs": [ 
+      { 
+        "test_name": "Epstein-Barr Virus (EBV) Antibody Panel & Hepatic Panel", 
+        "date": "2025-09-22", 
+        "findings": "EBV VCA IgG positive, IgM negative (resolved convalescent mono); normal AST (21 U/L) and ALT (19 U/L).", 
+        "status": "Reviewed by Dr. Chen" 
+      } 
+    ], 
+    "medical_history": ["Infectious mononucleosis (resolved Fall 2025)", "Generalized anxiety disorder"] 
+  }
+]

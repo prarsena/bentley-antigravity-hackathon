@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="UOkay? - University Health Center Frontline Triage & Clinician Workstation">
+  <title>UOkay? &bull; Clinical Intake & Triage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-background text-foreground antialiased">
+  <div id="app" class="app-root">
+
+    <!-- GLOBAL NAVBAR -->
+    <header class="navbar" role="banner">
+      <div class="navbar-left">
+        <button id="btn-back-directory" class="btn btn-ghost btn-sm" style="display: none;" title="Return to Student Directory">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Directory
+        </button>
+        <div class="brand">
+          <span class="brand-title">UOkay?</span>
+          <span class="brand-sep">/</span>
+          <span class="brand-sub" id="header-context-title">Student Directory</span>
+        </div>
+      </div>
+
+      <!-- Center: Tabs (Shown only when a student is selected) -->
+      <nav class="navbar-center" id="nav-workstation-tabs" style="display: none;" aria-label="Workstation Views">
+        <div class="tabs-list" role="tablist">
+          <button id="view-mode-split" class="tab-trigger active" role="tab" aria-selected="true">
+            Dual View
+          </button>
+          <button id="view-mode-student" class="tab-trigger" role="tab" aria-selected="false">
+            Student Intake
+            <span class="badge-dot" id="student-notify-dot" style="display: none;"></span>
+          </button>
+          <button id="view-mode-clinician" class="tab-trigger" role="tab" aria-selected="false">
+            Clinician Queue
+            <span class="badge-dot" id="dash-notify-dot" style="display: none;"></span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Right: Model Status, Active Student & Settings -->
+      <div class="navbar-right">
+        <!-- Live Provider Badge -->
+        <div class="model-status-badge" id="model-status-badge" title="Active Engine">
+          <span class="status-dot green"></span>
+          <span id="model-status-text" class="model-status-text">Gemini 3.5 Flash</span>
+        </div>
+
+        <!-- Selected Student Pill (Shown when student active) -->
+        <button class="btn btn-outline btn-sm student-btn" id="open-ehr-btn" style="display: none;" title="Open Medical Chart">
+          <span class="student-label" id="nav-student-name">Alex Taylor</span>
+          <span class="student-id-code" id="nav-student-id">STU-88219</span>
+        </button>
+
+        <!-- Settings Button -->
+        <button id="open-settings-btn" class="btn btn-ghost btn-icon" title="Engine Settings">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- VIEW A: ROOT STUDENT DIRECTORY -->
+    <main class="directory-view" id="view-directory">
+      <div class="directory-container">
+        <div class="directory-hero">
+          <h1 class="directory-title">Select Student Patient</h1>
+          <p class="directory-subtitle">Select an enrolled student to initiate clinical intake or review triage history</p>
+        </div>
+
+        <div class="students-grid" id="students-grid">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </main>
+
+    <!-- VIEW B: TRIAGE WORKSTATION (Shown when student is selected) -->
+    <main class="workspace split-layout" id="view-workstation" style="display: none;">
+
+      <!-- PANE 1: STUDENT INTAKE CHAT -->
+      <section class="pane pane-student" id="pane-student" aria-label="Student Intake">
+        <div class="pane-header">
+          <div>
+            <h2 class="pane-title">Student Intake</h2>
+            <p class="pane-desc">Confidential symptom history collection</p>
+          </div>
+          <div class="pane-header-actions">
+            <button id="submit-report-btn" class="btn btn-secondary btn-sm" title="Finalize intake and transmit summary to clinical dashboard">
+              Submit to Clinician
+            </button>
+            <button id="clear-chat-btn" class="btn btn-ghost btn-icon btn-sm" title="Reset conversation">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Emergency Banner (Only shown upon red-flag symptoms) -->
+        <div class="emergency-banner" id="emergency-alert-banner" style="display: none;">
+          <div class="emergency-content">
+            <strong>Emergency Care Required</strong>
+            <p>Immediate clinical evaluation indicated. Please dial <strong>911</strong> or <strong>Campus Police &amp; EMS at ext. 3131</strong> immediately.</p>
+          </div>
+        </div>
+
+        <!-- Care Plan Status Banner (Shown when clinician actions exist) -->
+        <div class="care-plan-banner" id="care-plan-banner" style="display: none;">
+          <div class="care-plan-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="care-plan-content">
+            <div class="care-plan-title" id="care-plan-title">Care Plan Update</div>
+            <div class="care-plan-desc" id="care-plan-desc">No active orders</div>
+          </div>
+        </div>
+
+        <!-- Chat Stream -->
+        <div class="chat-viewport" id="chat-stream" role="log" aria-live="polite">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Typing status -->
+        <div class="typing-status" id="typing-indicator" style="display: none;">
+          <span class="typing-text">Documenting intake details...</span>
+        </div>
+
+        <!-- Chat Input Footer -->
+        <div class="chat-footer">
+          <form id="chat-form" class="chat-input-form">
+            <input 
+              type="text" 
+              id="chat-input" 
+              class="input chat-input-field" 
+              placeholder="Describe what you are experiencing (e.g. onset, duration, severity)..." 
+              autocomplete="off"
+              required
+            />
+            <button type="submit" id="send-btn" class="btn btn-primary btn-icon" title="Send message">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+          </form>
+          <p class="disclaimer">
+            Intake assistant documents symptoms for health center providers. Final diagnoses and clinical treatments are determined by licensed clinicians.
+          </p>
+        </div>
+      </section>
+
+      <!-- PANE 2: CLINICIAN TRIAGE DASHBOARD -->
+      <section class="pane pane-clinician" id="pane-clinician" aria-label="Clinician Dashboard">
+        <div class="pane-header">
+          <div>
+            <div class="pane-header-title-row">
+              <h2 class="pane-title">Clinician Triage Queue</h2>
+              <span class="patient-scope-tag" id="queue-patient-scope">Alex Taylor</span>
+            </div>
+            <p class="pane-desc">Provider review and order management</p>
+          </div>
+
+          <div class="clinician-controls">
+            <!-- Patient Scope Switcher -->
+            <div class="scope-tabs" role="group" aria-label="Queue Scope">
+              <button class="scope-btn active" id="scope-btn-current">Current Patient</button>
+              <button class="scope-btn" id="scope-btn-all">All Patients</button>
+            </div>
+
+            <!-- Shadcn Filter Tabs -->
+            <div class="filter-tabs">
+              <button class="filter-pill active" data-filter="all">All <span id="count-all" class="count-badge">0</span></button>
+              <button class="filter-pill" data-filter="Emergency">Emergency <span id="count-emergency" class="count-badge red">0</span></button>
+              <button class="filter-pill" data-filter="Routine">Routine <span id="count-routine" class="count-badge">0</span></button>
+              <button class="filter-pill" data-filter="Reviewed">Reviewed <span id="count-reviewed" class="count-badge green">0</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Triage Reports Container -->
+        <div class="reports-viewport" id="triage-feed">
+          <div id="triage-cards-container" class="reports-container">
+            <!-- Triage cards rendered here -->
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="app-toast" class="toast-card" style="display: none;">
+      <span class="toast-indicator"></span>
+      <span id="toast-message" class="toast-body"></span>
+    </div>
+
+    <!-- MODAL 1: Student EHR Chart -->
+    <div class="dialog-backdrop" id="ehr-modal" style="display: none;">
+      <div class="dialog-content dialog-lg">
+        <div class="dialog-header">
+          <div>
+            <h3 class="dialog-title">Student Health Record (EHR)</h3>
+            <p class="dialog-desc" id="ehr-modal-sub">Confidential Patient Chart</p>
+          </div>
+          <button class="dialog-close" id="close-ehr-btn">&times;</button>
+        </div>
+        <div class="dialog-body" id="ehr-modal-body"></div>
+      </div>
+    </div>
+
+    <!-- MODAL 2: Schedule In-Person Appointment -->
+    <div class="dialog-backdrop" id="appointment-modal" style="display: none;">
+      <div class="dialog-content">
+        <div class="dialog-header">
+          <div>
+            <h3 class="dialog-title">Schedule In-Person Appointment</h3>
+            <p class="dialog-desc" id="appt-patient-name">Student</p>
+          </div>
+          <button class="dialog-close" id="close-appt-modal-btn">&times;</button>
+        </div>
+        <div class="dialog-body space-y-4">
+          <div class="form-item">
+            <label class="form-label">Attending Provider</label>
+            <select id="appt-provider" class="select">
+              <option value="Dr. Chen (Internal Medicine)">Dr. Chen (Internal Medicine)</option>
+              <option value="Dr. Patel (Pulmonology / Allergy)">Dr. Patel (Pulmonology / Allergy)</option>
+              <option value="Dr. Alvarez (Endocrinology)">Dr. Alvarez (Endocrinology)</option>
+              <option value="Nurse Practitioner Rivera">Nurse Practitioner Rivera</option>
+              <option value="Campus Health Walk-In Triage">Campus Health Walk-In Triage</option>
+            </select>
+          </div>
+          <div class="form-item">
+            <label class="form-label">Time Slot</label>
+            <select id="appt-time" class="select">
+              <option value="Tomorrow at 10:00 AM">Tomorrow at 10:00 AM (Recommended)</option>
+              <option value="Tomorrow at 2:30 PM">Tomorrow at 2:30 PM</option>
+              <option value="Wednesday at 11:15 AM">Wednesday at 11:15 AM</option>
+            </select>
+          </div>
+          <div class="dialog-footer">
+            <button class="btn btn-outline" id="cancel-appt-btn">Cancel</button>
+            <button class="btn btn-primary" id="confirm-appt-btn">Confirm Booking</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 3: Diagnostic Lab Order -->
+    <div class="dialog-backdrop" id="lab-modal" style="display: none;">
+      <div class="dialog-content">
+        <div class="dialog-header">
+          <div>
+            <h3 class="dialog-title">Diagnostic Lab Order</h3>
+            <p class="dialog-desc" id="lab-patient-name">Student</p>
+          </div>
+          <button class="dialog-close" id="close-lab-modal-btn">&times;</button>
+        </div>
+        <div class="dialog-body space-y-4">
+          <div class="card card-muted p-4">
+            <strong class="text-sm font-semibold text-foreground" id="lab-order-panel-title">Diagnostic Panel Requisition</strong>
+            <p class="text-xs text-muted-foreground mt-1" id="lab-order-panel-desc">Requisition recommended clinical diagnostic panels based on active symptoms and patient history.</p>
+          </div>
+          <div class="dialog-footer">
+            <button class="btn btn-outline" id="cancel-lab-btn">Cancel</button>
+            <button class="btn btn-primary" id="confirm-lab-btn">Submit Order</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 4: JSON Inspector -->
+    <div class="dialog-backdrop" id="json-modal" style="display: none;">
+      <div class="dialog-content dialog-lg">
+        <div class="dialog-header">
+          <div>
+            <h3 class="dialog-title">TriageReport Contract (JSON)</h3>
+            <p class="dialog-desc">Standardized clinical payload</p>
+          </div>
+          <button class="dialog-close" id="close-json-btn">&times;</button>
+        </div>
+        <div class="dialog-body">
+          <pre class="json-code" id="json-viewer-content"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 5: Settings -->
+    <div class="dialog-backdrop" id="settings-modal" style="display: none;">
+      <div class="dialog-content">
+        <div class="dialog-header">
+          <div>
+            <h3 class="dialog-title">Engine Configuration</h3>
+            <p class="dialog-desc">LLM provider and API credentials</p>
+          </div>
+          <button class="dialog-close" id="close-settings-btn">&times;</button>
+        </div>
+        <div class="dialog-body">
+          <form id="settings-form" class="space-y-4">
+            <div class="form-item">
+              <label class="form-label" for="provider-select">Provider</label>
+              <select id="provider-select" class="select">
+                <option value="gemini">Google Gemini API (Live)</option>
+                <option value="simulator">Clinical Triage Simulator (Built-in)</option>
+                <option value="openai">OpenAI API (Live)</option>
+              </select>
+            </div>
+            <div class="form-item" id="gemini-key-group">
+              <label class="form-label" for="gemini-api-key">Gemini API Key</label>
+              <input type="password" id="gemini-api-key" class="input" placeholder="Configured via .env or paste here..." />
+              <p class="text-xs text-muted-foreground mt-1" id="gemini-key-status">Key active from .env</p>
+            </div>
+            <div class="form-item" id="openai-key-group">
+              <label class="form-label" for="openai-api-key">OpenAI API Key</label>
+              <input type="password" id="openai-api-key" class="input" placeholder="sk-..." />
+            </div>
+            <div class="dialog-footer">
+              <button type="button" class="btn btn-outline" id="cancel-settings-btn">Cancel</button>
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

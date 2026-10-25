@@ -1,0 +1,18 @@
+{
+  "name": "university-health-center-triage",
+  "version": "1.0.0",
+  "description": "University Health Center Frontline Triage Chatbot and Clinician Dashboard",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node tests/acceptance_tests.js"
+  },
+  "keywords": ["triage", "healthcare", "ai", "gemini", "ehr"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}

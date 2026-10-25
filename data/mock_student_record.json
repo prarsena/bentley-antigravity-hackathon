@@ -1,0 +1,15 @@
+{ 
+  "student_id": "STU-88219", 
+  "first_name": "Alex", 
+  "last_name": "Taylor", 
+  "date_of_birth": "2004-05-14", 
+  "recent_labs": [ 
+    { 
+      "test_name": "Complete Blood Count (CBC) - Ferritin & Hemoglobin", 
+      "date": "2026-02-10", 
+      "findings": "Low serum ferritin (11 ng/mL, reference 20-200), mild microcytic anemia indicated.", 
+      "status": "Reviewed by Dr. Chen" 
+    } 
+  ], 
+  "medical_history": ["Mild seasonal allergies", "Iron deficiency anemia (managed)"] 
+}

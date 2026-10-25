@@ -1,0 +1,57 @@
+[ 
+  { 
+    "type": "function", 
+    "function": { 
+      "name": "submit_triage_report", 
+      "description": "Submits a standardized clinical intake summary to the health center's provider dashboard after completing conversational symptom triage.", 
+      "parameters": { 
+        "type": "object", 
+        "properties": { 
+          "student_id": { 
+            "type": "string", 
+            "description": "Unique student identifier (e.g., STU-88219)." 
+          }, 
+          "student_name": { 
+            "type": "string", 
+            "description": "Full name of the student." 
+          }, 
+          "chief_complaint": { 
+            "type": "string", 
+            "description": "Primary symptom or reason for contacting the health center (e.g., 'Persistent fatigue and afternoon weakness')." 
+          }, 
+          "duration_and_onset": { 
+            "type": "string", 
+            "description": "Timeline of symptoms, including onset date and progression (e.g., 'Gradual onset over past 3 weeks, worsening in afternoons')." 
+          }, 
+          "symptom_details": { 
+            "type": "string", 
+            "description": "Detailed clinical characteristics: severity, functional impact, alleviating/aggravating factors, and pertinent negatives (e.g., 'Reports lightheadedness on standing; denies fever, chills, cough, or chest pain')." 
+          }, 
+          "relevant_history_notes": { 
+            "type": "string", 
+            "description": "Correlation between current symptoms and existing records/labs (e.g., 'Symptoms mirror February 2026 iron deficiency presentation; ferritin was 11 ng/mL')." 
+          }, 
+          "escalation_level": { 
+            "type": "string", 
+            "enum": ["Routine", "Priority", "Emergency"], 
+            "description": "Clinical urgency tier based on reported symptoms and red flag presence." 
+          }, 
+          "suggested_provider_action": { 
+            "type": "string", 
+            "description": "Suggested non-binding clinical follow-up for the provider to consider (e.g., 'Evaluate for repeat CBC/ferritin panel; review oral iron compliance')." 
+          } 
+        }, 
+        "required": [ 
+          "student_id", 
+          "student_name", 
+          "chief_complaint", 
+          "duration_and_onset", 
+          "symptom_details", 
+          "escalation_level", 
+          "suggested_provider_action" 
+        ], 
+        "additionalProperties": false 
+      } 
+    } 
+  } 
+]
